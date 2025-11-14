@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mindlink Lab — Agentes de IA & Mini-CRM</title>
+  <meta name="description" content="Mindlink Lab — Agentes de IA, mini-CRM e automações plug-and-play para aumentar suas vendas e organizar sua operação." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#05050A;
+      --card:#0b0b10;
+      --muted:#9aa3b2;
+      --accent:#8A5CFF; /* roxo */
+      --accent-2:#00F0D5; /* cyan */
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(138,92,255,0.035), transparent 6%),
+        radial-gradient(800px 400px at 95% 80%, rgba(0,240,213,0.02), transparent 6%),
+        linear-gradient(180deg,#04040a 0%, #07070f 60%);
+      color:#e8eef7;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+    a{color:var(--accent); text-decoration:none}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px;}
+    header{padding:18px 0;position:sticky;top:0;background:linear-gradient(180deg, rgba(5,5,10,0.6), rgba(5,5,10,0.25));backdrop-filter: blur(6px);z-index:60}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#06060a;
+      box-shadow: 0 6px 30px rgba(138,92,255,0.12), 0 2px 6px rgba(0,240,213,0.06);
+      font-family:Inter, sans-serif;
+    }
+    .brand h1{font-size:18px;margin:0}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+    nav ul{display:flex;gap:18px;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{font-weight:600;color:#cfe7ff;font-size:14px}
+    .hero{
+      display:grid;grid-template-columns:1fr 520px;gap:30px;align-items:center;padding:60px 0;
+    }
+    @media(max-width:980px){ .hero{grid-template-columns:1fr; padding:28px 0;} nav ul{display:none} .container{padding:18px}}
+    .eyebrow{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 12px;border-radius:999px;color:#06060a;font-weight:700;font-size:12px;margin-bottom:16px}
+    h2{font-size:40px;margin:0 0 12px;line-height:1.02}
+    p.lead{color:#c8d6e6;font-size:16px;margin:0 0 20px;max-width:640px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#05050a;padding:12px 18px;border-radius:12px;font-weight:700;border:0;cursor:pointer;box-shadow:0 6px 30px rgba(138,92,255,0.12);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cfe7ff}
+    .hero-visual{border-radius:16px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);padding:14px;border:1px solid rgba(255,255,255,0.02)}
+    .visual-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .asset{
+      width:100%;
+      aspect-ratio: 4/3;
+      border-radius:10px;
+      overflow:hidden;
+      position:relative;
+      background:#07070f;
+      border:1px solid rgba(255,255,255,0.02);
+      transition:transform .28s ease, box-shadow .28s ease;
+    }
+    .asset img, .asset video{width:100%;height:100%;object-fit:cover;display:block}
+    .asset:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(138,92,255,0.12), 0 6px 18px rgba(0,240,213,0.06)}
+    .trust{display:flex;gap:14px;align-items:center;margin-top:20px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+    .pill{background:var(--glass);padding:8px 10px;border-radius:10px;color:#bcd3ff;font-size:13px}
+    section{padding:64px 0;border-top:1px solid rgba(255,255,255,0.02)}
+    h3{font-size:22px;margin:0 0 12px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media(max-width:980px){.grid-3{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .card h4{margin:0 0 8px}
+    .muted{color:var(--muted);font-size:14px}
+    .feature-list{display:grid;gap:12px}
+    .feature{display:flex;gap:12px;align-items:flex-start}
+    .feature .ico{width:44px;height:44px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#05050a}
+    .floating-cta{position:fixed;right:22px;bottom:22px;z-index:80}
+    .floating-cta .btn{padding:14px 18px;border-radius:999px}
+    /* pricing */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media(max-width:980px){.pricing-grid{grid-template-columns:1fr}}
+    .price-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);position:relative;min-height:200px}
+    .price{font-size:26px;font-weight:800}
+    footer{padding:48px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02)}
+    .faq .q{padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);margin-bottom:8px}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(138,92,255,0.12);color:var(--accent);font-weight:700}
+    .kicker{color:var(--muted);font-size:13px}
+    .small{font-size:13px}
+    /* simple reveal */
+    [data-reveal]{opacity:0;transform:translateY(6px);transition:all .6s cubic-bezier(.2,.9,.3,1)}
+    [data-reveal].on{opacity:1;transform:none}
+    /* contact form */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:700px){.form-row{grid-template-columns:1fr}}
+    input,textarea,select{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;color:#eaf6ff;outline:none}
+    textarea{min-height:120px;resize:vertical}
+    .note{font-size:13px;color:var(--muted)}
+    /* carousel */
+    .carousel{display:flex;gap:12px;align-items:stretch}
+    .carousel .slide{flex:1;min-width:0}
+    @media(max-width:980px){.carousel{flex-direction:column}.hero{grid-template-columns:1fr;}}
+    /* mobile card CTA (fixed inside card) */
+    .mobile-cta{display:none}
+    @media(max-width:700px){
+      .price-card{min-height:180px;padding-bottom:72px}
+      .mobile-cta{display:block;position:absolute;left:18px;right:18px;bottom:14px}
+      .floating-cta{right:12px;left:12px}
+    }
+    /* small styles */
+    .muted.small{color:var(--muted)}
+    .center{text-align:center}
+    /* success toast */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:rgba(0,0,0,0.7);padding:12px 18px;border-radius:8px;color:#dfffe8;display:none;z-index:999}
+    /* accessibility focus */
+    button:focus, a:focus, input:focus {outline: 3px solid rgba(138,92,255,0.12);outline-offset:2px}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">ML</div>
+        <div>
+          <h1>Mindlink Lab</h1>
+          <p class="small">Automações & Agentes de IA para vendas</p>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#produtos">Serviços</a></li>
+          <li><a href="#provas">Provas</a></li>
+          <li><a href="#precos">Preços</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div data-reveal>
+        <span class="eyebrow">Automações prontas • Plug & Play</span>
+        <h2><span class="badge">Mindlink Lab</span> Agentes de IA + mini-CRM que vendem por você</h2>
+        <p class="lead">Automatize atendimento, capture leads no WhatsApp, agende reuniões e reduza no-shows com agentes de IA humanizados. Tudo integrado ao seu CRM e pronto para rodar — sem complicação.</p>
+
+        <div class="cta-row">
+          <button class="btn" onclick="scrollToSelector('#contato')">Agende sua sessão estratégica (grátis)</button>
+          <a class="btn ghost" href="#provas" onclick="scrollToSelector('#provas')">Ver casos & demos</a>
+        </div>
+
+        <div class="trust">
+          <div class="pill">Deployment rápido</div>
+          <div class="pill">Integração: WhatsApp • Tomik • Supabase</div>
+          <div class="pill">SaaS em construção: <strong>Flowcargo</strong></div>
+        </div>
+
+        <div style="margin-top:14px">
+          <p class="small muted">Horário atual confirmado no sistema: <strong>{{ $now.setLocale('pt-BR').toFormat("cccc, dd 'de' LLLL 'de' yyyy, HH:mm") }}</strong></p>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true" data-reveal>
+        <!-- Visual grid: 3 assets, equalized aspect-ratio -->
+        <div class="visual-grid">
+          <div class="asset">
+            <!-- main image - Gemini -->
+            <img src="Gemini_Generated_Image_83ofng83ofng83of.png" alt="Mindlink visual 1" loading="lazy"/>
+          </div>
+
+          <div style="display:grid;grid-template-rows:1fr 1fr;gap:10px">
+            <div class="asset">
+              <img src="Gemini_Generated_Image_uguywvuguywvuguy.png" alt="Mindlink visual 2" loading="lazy"/>
+            </div>
+            <div class="asset">
+              <img src="Gemini_Generated_Image_zeaurezeaurezeau.png" alt="Mindlink visual 3" loading="lazy"/>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between">
+          <div class="muted small">Agentes ativos: <strong>Agente Comercial</strong>, <strong>Agente de Agendamentos</strong>, <strong>Harry</strong></div>
+          <div style="display:flex;gap:8px">
+            <a class="btn ghost" href="#precos">Ver Planos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUTOS / SERVIÇOS -->
+    <section id="produtos">
+      <div class="kicker">O que entregamos</div>
+      <h3>Agentes prontos + Mini-CRM para seu time fechar mais</h3>
+      <p class="muted">Pacotes plug-and-play para vendedores, clínicas, serviços locais e e-commerce. Integramos WhatsApp, agendamento e relatórios — você começa a ver resultado nos primeiros dias.</p>
+
+      <div style="height:16px"></div>
+
+      <div class="grid-3">
+        <div class="card" data-reveal>
+          <h4>Agente Comercial</h4>
+          <p class="muted">Triagem com SPIN Selling, qualificação automática e convite para sessão estratégica.</p>
+          <ul class="muted small">
+            <li>Triagem automática</li>
+            <li>Resumo pronto pro time</li>
+            <li>Agendamento sem atrito</li>
+          </ul>
+        </div>
+
+        <div class="card" data-reveal>
+          <h4>Agente de Agendamentos</h4>
+          <p class="muted">Confirma disponibilidade, cria eventos e envia confirmações por WhatsApp.</p>
+          <ul class="muted small">
+            <li>Sincroniza com Google Calendar</li>
+            <li>Evita conflitos</li>
+            <li>Confirmações automáticas</li>
+          </ul>
+        </div>
+
+        <div class="card" data-reveal>
+          <h4>Harry — Agente Administrativo</h4>
+          <p class="muted">Consulta financeiro, gera relatórios e faz follow-ups automáticos.</p>
+          <ul class="muted small">
+            <li>Consultas rápidas por chat</li>
+            <li>Relatórios resumidos</li>
+            <li>Follow-up automatizado</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO / CASES -->
+    <section id="provas">
+      <div class="kicker">Demonstrações & Case studies</div>
+      <h3>Como funciona na prática</h3>
+      <p class="muted">Veja fluxos prontos que já entregamos. Acompanhe a sequência: primeira cena — sobrecarga; segunda — agentes assumem.</p>
+
+      <div style="height:18px"></div>
+
+      <!-- CAROUSEL / SIDE-BY-SIDE -->
+      <div class="card" data-reveal>
+        <div class="carousel" aria-live="polite">
+          <!-- Slide 1: Mulher sobrecarregada -->
+          <div class="slide asset">
+            <!-- Use the exact filenames you uploaded -->
+            <video controls playsinline preload="metadata" poster="video-poster-1.png">
+              <source src="Sobrecarga_Digital_Ansiedade_em_Loop.mp4" type="video/mp4">
+              Seu navegador não suporta video.
+            </video>
+          </div>
+
+          <!-- Slide 2: Agentes atuando -->
+          <div class="slide asset">
+            <video controls playsinline preload="metadata" poster="video-poster-2.png">
+              <source src="Vídeo_de_Interface_Cyberpunk_Gerado (1).mp4" type="video/mp4">
+              Seu navegador não suporta video.
+            </video>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+        <div class="center">
+          <button class="btn" onclick="scrollToSelector('#contato')">Quero a demo</button>
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <!-- visual proofs -->
+      <div class="visual-grid">
+        <div class="asset"><img src="Gemini_Generated_Image_4matcf4matcf4mat.png" alt="case visual A" /></div>
+        <div class="asset"><img src="Gemini_Generated_Image_7tx0pz7tx0pz7tx0.png" alt="case visual B" /></div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <!-- diagram highlight (your mindlink diagram) -->
+      <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:12px">
+        <div style="flex:1;min-width:260px">
+          <h4>Fluxo do Agente Comercial</h4>
+          <p class="muted">Recebe mensagens no WhatsApp → Classifica/qualifica via SPIN → Registra lead e agenda reunião.</p>
+        </div>
+        <div style="flex:1;min-width:300px" class="asset">
+          <img src="ChatGPT Image Nov 14, 2025, 02_45_57 PM.png" alt="Diagrama do agente" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FUNCIONALIDADES -->
+    <section id="features">
+      <h3>Funcionalidades principais</h3>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Integração completa</h4>
+          <p class="muted">WhatsApp, Tomik, Supabase, Google Calendar — tudo orquestrado para você.</p>
+        </div>
+        <div class="card">
+          <h4>Fluxos prontos</h4>
+          <p class="muted">Templates SPIN, follow-up e pós-venda prontos para rodar.</p>
+        </div>
+        <div class="card">
+          <h4>Segurança & Persistência</h4>
+          <p class="muted">Dados em Supabase com backup e histórico auditável.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="precos">
+      <div class="kicker">Planos prontos</div>
+      <h3>Escolha o plano ideal</h3>
+      <p class="muted">Planos pensados para testar rápido e escalar conforme resultados.</p>
+
+      <div style="height:18px"></div>
+
+      <div class="pricing-grid" data-reveal>
+        <div class="price-card">
+          <div class="small muted">Starter</div>
+          <div class="price">R$ 297 / mês</div>
+          <p class="muted">1 agente comercial • Mini-CRM básico • 2 integrações</p>
+          <ul class="muted small">
+            <li>Setup rápido</li>
+            <li>Suporte inicial</li>
+          </ul>
+          <div style="height:12px"></div>
+          <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Contratar Starter</a>
+
+          <div class="mobile-cta">
+            <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Contratar Starter</a>
+          </div>
+        </div>
+
+        <div class="price-card">
+          <div class="small muted">Growth</div>
+          <div class="price">R$ 797 / mês</div>
+          <p class="muted">2 agentes • Mini-CRM avançado • 4 integrações</p>
+          <ul class="muted small">
+            <li>Setup + treinamento</li>
+            <li>Monitoria mensal</li>
+          </ul>
+          <div style="height:12px"></div>
+          <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Contratar Growth</a>
+
+          <div class="mobile-cta">
+            <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Contratar Growth</a>
+          </div>
+        </div>
+
+        <div class="price-card">
+          <div class="small muted">Enterprise</div>
+          <div class="price">Sob consulta</div>
+          <p class="muted">Workflow custom, múltiplos agentes e SLA.</p>
+          <div style="height:12px"></div>
+          <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Quero Enterprise</a>
+
+          <div class="mobile-cta">
+            <a class="btn" href="#contato" onclick="scrollToSelector('#contato')">Quero Enterprise</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:12px">Obs: Também oferecemos setup pontual (one-time) e manutenção. Pergunte pelo <strong>Flowcargo</strong>, nosso SaaS para logística de agentes.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h3>Perguntas frequentes</h3>
+      <div class="faq">
+        <div class="q card">
+          <strong>Como funciona a integração com meu WhatsApp?</strong>
+          <p class="muted">Integrável via API (Z-API, Meta, outros). Fazemos a configuração e testes para seu time usar.</p>
+        </div>
+
+        <div class="q card">
+          <strong>O que é necessário para começar?</strong>
+          <p class="muted">Conta no Tomik (se optar), número/conta de WhatsApp e permissões de calendar. Em 48–72h já conseguimos versão mínima funcionando.</p>
+        </div>
+
+        <div class="q card">
+          <strong>Posso usar meus dados já existentes?</strong>
+          <p class="muted">Sim — migramos ou integramos com Supabase/Tomik. Também temos templates prontos para começar do zero.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contato">
+      <h3>Agende sua sessão estratégica (grátis)</h3>
+      <p class="muted">Sessão de 30 minutos com o time técnico — incluímos diagnóstico rápido e 3 sugestões práticas.</p>
+
+      <div style="height:16px"></div>
+
+      <div class="card" data-reveal>
+        <!-- FORM: Submete para webhook n8n via fetch -->
+        <form id="leadForm">
+          <div class="form-row">
+            <input type="text" id="name" name="name" placeholder="Seu nome completo *" required />
+            <input type="email" id="email" name="email" placeholder="Melhor e-mail *" required />
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="form-row">
+            <input type="text" id="phone" name="phone" placeholder="WhatsApp (com DDD) *" required />
+            <select name="plan" id="plan">
+              <option value="demo">Quero demo / sessão estratégica</option>
+              <option value="starter">Starter</option>
+              <option value="growth">Growth</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <textarea id="message" name="message" placeholder="Breve descrição do seu desafio (opcional)"></textarea>
+
+          <div style="height:12px;display:flex;gap:12px;align-items:center">
+            <button class="btn" id="submitBtn" type="submit">Agendar sessão gratuita</button>
+            <a class="btn ghost" href="https://wa.me/5591999999999?text=Ol%C3%A1%21+Quero+agendar+uma+sess%C3%A3o+com+o+Mindlink+Lab" target="_blank">Agendar via WhatsApp</a>
+          </div>
+
+          <p class="note" style="margin-top:10px">Ao enviar, iremos sugerir 2 janelas de horário por WhatsApp. Não compartilhamos dados.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap">
+        <div>
+          <h4>Mindlink Lab</h4>
+          <p class="muted">Automações inteligentes para quem vende de verdade. <br>Vinícius Alves (Jordan) • Mindlink Lab</p>
+        </div>
+
+        <div>
+          <strong>Contato</strong>
+          <p class="muted small">Email: <a href="mailto:seu-email@exemplo.com">seu-email@exemplo.com</a></p>
+          <p class="muted small">WhatsApp: <a href="https://wa.me/5591999999999">+55 (91) 9 9999-9999</a></p>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="small muted">© <span id="year"></span> Mindlink Lab — Todos os direitos.</div>
+        <div class="small muted">SaaS em construção: <strong>Flowcargo</strong></div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- floating CTA -->
+  <div class="floating-cta" id="floatingCta" aria-hidden="false">
+    <button class="btn" onclick="scrollToSelector('#contato')">Agende sua sessão</button>
+  </div>
+
+  <div class="toast" id="toast">Mensagem enviada!</div>
+
+  <script>
+    // small helpers
+    function scrollToSelector(sel){
+      const el = document.querySelector(sel);
+      if(!el) return;
+      el.scrollIntoView({behavior:'smooth',block:'start'});
+      // focus first input if contact
+      if(sel === '#contato') {
+        setTimeout(()=>{ const f = document.querySelector('#name'); if(f) f.focus(); },420);
+      }
+    }
+
+    // year
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // reveal on scroll
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting) ent.target.classList.add('on');
+      });
+    }, {threshold:0.12});
+    document.querySelectorAll('[data-reveal]').forEach(n=>obs.observe(n));
+
+    // floating CTA behavior:
+    const cta = document.getElementById('floatingCta');
+    let lastScroll = 0;
+    const mobileTrigger = 100; // show after 100px for mobile
+    const desktopTrigger = 300;
+    window.addEventListener('scroll', ()=> {
+      const cur = window.scrollY || window.pageYOffset;
+      const isMobile = window.matchMedia('(max-width:700px)').matches;
+      const trigger = isMobile ? mobileTrigger : desktopTrigger;
+      if(cur > trigger) {
+        cta.style.transform = 'translateY(0)';
+        cta.style.opacity = '1';
+      } else {
+        cta.style.transform = 'translateY(120px)';
+        cta.style.opacity = '0';
+      }
+      lastScroll = cur;
+    });
+    // init hidden
+    cta.style.transform = 'translateY(120px)';
+    cta.style.opacity = '0';
+    cta.style.transition = 'all .32s ease';
+
+    // Form submission to n8n webhook
+    const form = document.getElementById('leadForm');
+    const toast = document.getElementById('toast');
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const plan = document.getElementById('plan').value;
+      const message = document.getElementById('message').value.trim();
+
+      if(!name || !email || !phone) {
+        showToast('Preencha nome, e-mail e WhatsApp.');
+        return;
+      }
+
+      // payload (adjust format if your n8n expects form-data or JSON)
+      const payload = {
+        name, email, phone, plan, message, source: 'landing_mindlink'
+      };
+
+      try {
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').innerText = 'Enviando...';
+
+        const res = await fetch('https://n8n.mindlinklab.com.br/webhook/026c6ded-071c-4c06-bd99-01a520477124', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+
+        if(res.ok || res.status===200) {
+          showToast('Obrigado! Recebemos sua solicitação. Verifique seu WhatsApp.');
+          form.reset();
+        } else {
+          showToast('Erro ao enviar. Tente via WhatsApp por enquanto.');
+          console.warn('webhook returned', res.status, await res.text());
+        }
+      } catch(err){
+        console.error(err);
+        showToast('Erro de conexão. Tente novamente.');
+      } finally {
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').innerText = 'Agendar sessão gratuita';
+      }
+    });
+
+    function showToast(text){
+      toast.innerText = text || 'Ação concluída';
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      setTimeout(()=>{ toast.style.opacity='0'; }, 3800);
+      setTimeout(()=>{ toast.style.display='none'; }, 4200);
+    }
+
+    // small accessible focus for video controls: nothing else required
+
+    // Ensure videos are muted on mobile autoplay preference? Here we keep controls for user choice.
+
+  </script>
+</body>
+</html>
